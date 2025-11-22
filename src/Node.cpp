@@ -1,9 +1,10 @@
+#include <string>
+
 #include "Node.h"
 
-Node::Node(int x, int y)
+Node::Node(string data)
 {
-    x = x;
-    y = y;
+    data = data;
 }
 
 Node::~Node() {}

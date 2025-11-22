@@ -2,18 +2,20 @@
 #define NODE_H__
 
 #include <memory>
+#include <string>
 
 using namespace std;
 
 class Node
 {
 private:
+    string data;
     int x_pos;
     int y_pos;
     Node *predecessor;
 
 public:
-    Node(int x, int y);
+    Node(string data);
     ~Node();
     int getXPos();
     int getYPos();
