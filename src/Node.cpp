@@ -2,9 +2,9 @@
 
 #include "Node.h"
 
-Node::Node(string data)
+Node::Node(string s)
 {
-    data = data;
+    data = s;
 }
 
 Node::~Node() {}
