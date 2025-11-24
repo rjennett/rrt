@@ -14,9 +14,26 @@ int main()
     cout << "Penguins to feed: " << var << endl;
 
     // Initialize general configuration space as array of coordinates
+    int genConf[6][6] = {
+        {0, 1, 2, 3, 4, 5},
+        {0, 1, 2, 3, 4, 5},
+        {0, 1, 2, 3, 4, 5},
+        {0, 1, 2, 3, 4, 5},
+        {0, 1, 2, 3, 4, 5},
+        {0, 1, 2, 3, 4, 5}
+    };
     // Initialize start coordinates
+    int startX = 0;
+    int startY = 0;
+    
     // Initialize goal coordinates
-    // Initialize obstacle coordinates
-    // Initialize obstacle dimensions
+    int goalX = 5;
+    int goalY = 5;
+    
+    // (LATER) Initialize obstacle coordinates
+    // (LATER) Initialize obstacle dimensions
     // (LATER) Differentiate the set of free coordinates from obs coordinates(?)
+
+    // Graph->buildRRT()
+    // Output final path
 }

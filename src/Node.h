@@ -19,8 +19,8 @@ public:
     ~Node();
     int getXPos();
     int getYPos();
-    void setXPos();
-    void setYPos();
+    void setXPos(int);
+    void setYPos(int);
     void setPredecessor(Node *other);
 };
 

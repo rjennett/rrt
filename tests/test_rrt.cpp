@@ -22,6 +22,7 @@ TEST_F(test_rrt, rrt_GraphTest)
     Graph *graph = mkgraph();
     vector<Node *> nodes = graph->getNodes();
     ASSERT_EQ(nodes[0]->data, "a");
+    ASSERT_EQ(nodes[nodes.size() - 1]->data, "g");
 }
 
 // Helpers
