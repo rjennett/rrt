@@ -8,10 +8,10 @@ using namespace std;
 int main()
 {
     // Test build
-    int var;
-    cout << "Hello potato, how many penguins?" << endl;
-    cin >> var;
-    cout << "Penguins to feed: " << var << endl;
+    // int var;
+    // cout << "Hello potato, how many penguins?" << endl;
+    // cin >> var;
+    // cout << "Penguins to feed: " << var << endl;
 
     // Initialize general configuration space as array of coordinates
     int genConf[6][6] = {
@@ -34,6 +34,14 @@ int main()
     // (LATER) Initialize obstacle dimensions
     // (LATER) Differentiate the set of free coordinates from obs coordinates(?)
 
+    // Initialize the graph
+    Graph* g(new Graph());
+    Node* n = g->init(startX, startY);
+    g->addNode(n);
+
     // Graph->buildRRT()
+    Graph* newGraph = g->buildRRT(g, 5, 1, genConf);
+
     // Output final path
+    cout << "New graph created!" << endl;
 }

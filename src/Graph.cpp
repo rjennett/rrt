@@ -1,5 +1,7 @@
 #include <random>
 #include <tuple>
+#include <cmath>
+#include <array>
 
 #include "Graph.h"
 
@@ -31,32 +33,55 @@ void Graph::addEdge(Edge *e)
     edges.push_back(e);
 }
 
-Graph* Graph::buildRRT(int qInitX, int qInitY, int k, int deltaQ, vector<int, int> genConf) {
-    // Initialize the graph
-    Graph* g(new Graph());
-    Node* n = g->init(qInitX, qInitY);
-    g->addNode(n);
+Node* Graph::getNearestNode() {
+    return nearest;
+}
 
+int Graph::getNearestDist() {
+    return nearestDist;
+}
+
+void Graph::setNearestNode(Node* n) {
+    nearest = n;
+}
+
+void Graph::setNearestDist(int d) {
+    nearestDist = d;
+}
+
+Graph* Graph::buildRRT(Graph* g, int k, int deltaQ, int genConf[][6]) {
     // Iterate to k
     for (int i = 0; i < k; ++i) {
         // Get a random configuration qRand
         auto [qRandX, qRandY] = randConf(genConf);
 
         // Get the nearest node to qRand qNear
-        // Get the next node qNew using qNear and qRand
-        int qNewX;
-        // Init node
-        // Set node data for easy reference: "n" + k
-        Node* n(new Node("n" + k));
-        
-        // Set node x
-        n->setXPos(qNewX);
+        Node* qNear = nearestNode(qRandX, qRandY, g);
 
-        // Set node y
-        // Set node predecessor
-        // Add node to graph
-        // Add edge to graph
+        // Create the next node qNew using qNear and qRand
+        // Set node data for easy reference: "n" + k
+        Node* qNew(new Node("n" + to_string(k)));
+
+        // Calculate new qx, qy at unit dist from qNear, towards qRand
+        int unitDist = 1;
+        
+        // Set qNew->x
+        qNew->setXPos(qNear->getXPos() + 1);
+
+        // Set qNew->y
+        qNew->setYPos(qNear->getYPos() + 1);
+
+        // Set qNew->predecessor
+        qNew->setPredecessor(qNear);
+
+        // Add qNew node to graph
+        g->addNode(qNew);
+
+        // Add qNew edge to graph
+        Edge* e(new Edge(qNear, qNew));
+        g->addEdge(e);
     }
+    return g;
 }
 
 // Initialize a graph with one root node with attributes set
@@ -79,11 +104,12 @@ Node* Graph::init(int qInitX, int qInitY) {
 }
 
 // Get a random configuration in the general configuration space
-tuple<int, int> Graph::randConf(vector<int, int> genConf) {
+tuple<int, int> Graph::randConf(int genConf[][6]) {
     // Set up random
     random_device rd;
     mt19937 gen(rd());
-    uniform_int_distribution<> distrib(0, genConf[0].size() - 1);
+    // TODO: remove hardcoded sub-array length of 6
+    uniform_int_distribution<> distrib(0, 6 - 1);
 
     // Section assumes square configuration space
 
@@ -96,3 +122,37 @@ tuple<int, int> Graph::randConf(vector<int, int> genConf) {
     return make_tuple(x, y);
 }
 
+// Get the nearest existing node to the random conf
+Node* Graph::nearestNode(int qRandX, int qRandY, Graph* g) {
+    // For each node in the graph
+    // If graph only has one node, use that one
+    if (g->getNodes().size() == 1) {
+        setNearestNode(g->getNodes()[0]);
+        int dist = distance(g->getNodes()[0], qRandX, qRandY);
+        setNearestDist(dist);
+        return getNearestNode();
+    }
+
+    // Search graph for nearest node
+    for (Node* n : g->getNodes()) {
+        // Use helper distance() to find distance of n to point
+        int dist = distance(n, qRandX, qRandY);
+
+        // Use accumulator pattern to store nearest-so-far
+        if (dist <= getNearestDist()) {
+            // Set Graph->nearest = the passed node
+            setNearestNode(n);
+            // Set Graph->nearestDist = passed node's distance
+            setNearestDist(dist);
+        }
+    }
+    return getNearestNode();
+}
+
+// Get the distance from a node to a conf
+// TODO: what to return from this most effectively? int/double
+int Graph::distance(Node* n, int confX, int confY) {
+    // Calculate Euclidean distance
+    int dist = sqrt((pow((n->getXPos() - confX), 2)) + pow((n->getYPos() - confY), 2));
+    return dist;
+}
