@@ -24,10 +24,10 @@ The app will return a failure message if the tree does not encounter the goal co
 The app will print out the coordinates of the nodes that lead to the goal if the goal was found.
 
 ## Demonstration of the Project Running
-![RRT Run Success]()
-![RRT Run Failure]()
-![RRT Run Success Full CLI]()
-![RRT Test Output]()
+![RRT Run Success](img/RRT_RunSuccess.mp4)
+![RRT Run Failure](img/RRT_RunFailure.mp4)
+![RRT Run Success Full CLI](img/RRT_RunSuccessFullCLI.png)
+![RRT Test Output](img/TestOutputSuccess.png)
 
 ## Development Decisions
 This implementation was developed around a graph data structure. It uses a simplified graph, because not all of the functionality of a fully implemented graph is necessary here. Nodes must be added, store coordinate information, and have access to their predecessors. 
