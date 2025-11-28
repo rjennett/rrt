@@ -2,6 +2,7 @@
 #include <tuple>
 #include <cmath>
 #include <array>
+#include <iostream>
 
 #include "Graph.h"
 
@@ -49,21 +50,21 @@ void Graph::setNearestDist(int d) {
     nearestDist = d;
 }
 
-Graph* Graph::buildRRT(Graph* g, int k, int deltaQ, int genConf[][6], int goalX, int goalY) {
+Graph* Graph::buildRRT(Graph* g, int k, int deltaQ, int goalX, int goalY) {
     // Iterate to k
-    for (int i = 0; i < k; ++i) {
+    for (int i = 0; i < k - 1; ++i) {
         // Get a random configuration qRand
-        auto [qRandX, qRandY] = randConf(genConf);
+        auto [qRandX, qRandY] = randConf();
 
         // Get the nearest node to qRand qNear
         Node* qNear = nearestNode(qRandX, qRandY, g);
 
         // Create the next node qNew using qNear and qRand
-        // Set node data for easy reference: "n" + k
-        Node* qNew(new Node("n" + to_string(k)));
+        // Set node data for easy reference: "n" + i
+        Node* qNew(new Node("n" + to_string(i)));
 
         // Calculate new qx, qy at unit dist from qNear, towards qRand
-        auto [qNewX, qNewY] = normalDist(deltaQ, qNear->getXPos(), qNear->getYPos(), qRandX, qRandY);
+        auto [qNewX, qNewY] = normalDist(deltaQ, qNear, qRandX, qRandY);
         
         // Set qNew->x
         qNew->setXPos(qNewX);
@@ -84,6 +85,7 @@ Graph* Graph::buildRRT(Graph* g, int k, int deltaQ, int genConf[][6], int goalX,
         // End the tree if it found the goal
         if (distance(qNew, goalX, goalY) < 0.5) {
             // Consider the goal found
+            cout << "Goal Found!" << endl;
             return g;
         }
     }
@@ -110,12 +112,11 @@ Node* Graph::init(int qInitX, int qInitY) {
 }
 
 // Get a random configuration in the general configuration space
-tuple<int, int> Graph::randConf(int genConf[][6]) {
+tuple<int, int> Graph::randConf() {
     // Set up random
     random_device rd;
     mt19937 gen(rd());
-    // TODO: remove hardcoded sub-array length of 6
-    uniform_int_distribution<> distrib(0, 6 - 1);
+    uniform_int_distribution<> distrib(1, 6);
 
     // Section assumes square configuration space
 
@@ -162,18 +163,18 @@ double Graph::distance(Node* n, int confX, int confY) {
     return dist;
 }
 
-tuple<double, double> Graph::normalDist(int normal, int qNearX, int qNearY, int qRandX, int qRandY) {
+tuple<double, double> Graph::normalDist(int deltaQ, Node* qNear, int qRandX, int qRandY) {
     // Calc distance from qNear to qRand
-    double d = sqrt(pow((qRandX - qNearX), 2) + pow((qRandY - qNearY), 2));
+    double dist = distance(qNear, qRandX, qRandY);
 
-    // Calc ratio of d to normal unit
-    double t = normal / d;
+    // Return the point if it's nearer than the deltaQ
+    if (dist <= deltaQ) {
+        return make_tuple(qRandX, qRandY);
+    }
 
-    // Calc normal endpoint x
-    double xt = ((1 - t) * qNearX) + (t * qRandX);
-    
-    // Calc normal endpoint y
-    double yt = ((1 - t) * qNearY) + (t * qRandY);
+    double theta = atan2(qRandY - qNear->getYPos(), qRandX - qNear->getXPos());
+    double newX = qNear->getXPos() + deltaQ * cos(theta);
+    double newY = qNear->getYPos() + deltaQ * cos(theta);
 
-    return make_tuple(xt, yt);
+    return make_tuple(newX, newY);
 }

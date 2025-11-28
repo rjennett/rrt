@@ -13,22 +13,13 @@ int main()
     // cin >> var;
     // cout << "Penguins to feed: " << var << endl;
 
-    // Initialize general configuration space as array of coordinates
-    int genConf[6][6] = {
-        {0, 1, 2, 3, 4, 5},
-        {0, 1, 2, 3, 4, 5},
-        {0, 1, 2, 3, 4, 5},
-        {0, 1, 2, 3, 4, 5},
-        {0, 1, 2, 3, 4, 5},
-        {0, 1, 2, 3, 4, 5}
-    };
     // Initialize start coordinates
     int startX = 0;
     int startY = 0;
     
     // Initialize goal coordinates
-    int goalX = 5;
-    int goalY = 5;
+    int goalX = 3;
+    int goalY = 2;
     
     // (LATER) Initialize obstacle coordinates
     // (LATER) Initialize obstacle dimensions
@@ -40,12 +31,12 @@ int main()
     g->addNode(n);
 
     // Max number of nodes in graph
-    int k = 5;
+    int k = 50;
     // Max distance for a node to travel upon creation
     int deltaQ = 1;
 
     // Graph->buildRRT()
-    Graph* newGraph = g->buildRRT(g, k, deltaQ, genConf, goalX, goalY);
+    Graph* newGraph = g->buildRRT(g, k, deltaQ, goalX, goalY);
 
     // Output final path
     cout << "New graph created!" << endl;
