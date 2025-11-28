@@ -39,9 +39,20 @@ int main()
     Node* n = g->init(startX, startY);
     g->addNode(n);
 
+    // Max number of nodes in graph
+    int k = 5;
+    // Max distance for a node to travel upon creation
+    int deltaQ = 1;
+
     // Graph->buildRRT()
-    Graph* newGraph = g->buildRRT(g, 5, 1, genConf);
+    Graph* newGraph = g->buildRRT(g, k, deltaQ, genConf, goalX, goalY);
 
     // Output final path
     cout << "New graph created!" << endl;
+    cout << "Start: " << "(" << startX << ", " << startY << ")" << endl;
+    cout << "Goal: " << "(" << goalX << ", " << goalY << ")" << endl;
+    cout << "Graph node coordinates: " << endl;
+    for (auto i : g->getNodes()) {
+        cout << "(" << i->getXPos() << ", " << i->getYPos() << ")" << endl;
+    }
 }

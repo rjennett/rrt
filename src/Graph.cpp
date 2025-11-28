@@ -49,7 +49,7 @@ void Graph::setNearestDist(int d) {
     nearestDist = d;
 }
 
-Graph* Graph::buildRRT(Graph* g, int k, int deltaQ, int genConf[][6]) {
+Graph* Graph::buildRRT(Graph* g, int k, int deltaQ, int genConf[][6], int goalX, int goalY) {
     // Iterate to k
     for (int i = 0; i < k; ++i) {
         // Get a random configuration qRand
@@ -63,9 +63,7 @@ Graph* Graph::buildRRT(Graph* g, int k, int deltaQ, int genConf[][6]) {
         Node* qNew(new Node("n" + to_string(k)));
 
         // Calculate new qx, qy at unit dist from qNear, towards qRand
-        int unitDist = 1;
-
-        auto [qNewX, qNewY] = normalDist(unitDist, qNear->getXPos(), qNear->getYPos(), qRandX, qRandY);
+        auto [qNewX, qNewY] = normalDist(deltaQ, qNear->getXPos(), qNear->getYPos(), qRandX, qRandY);
         
         // Set qNew->x
         qNew->setXPos(qNewX);
@@ -82,6 +80,12 @@ Graph* Graph::buildRRT(Graph* g, int k, int deltaQ, int genConf[][6]) {
         // Add qNew edge to graph
         Edge* e(new Edge(qNear, qNew));
         g->addEdge(e);
+
+        // End the tree if it found the goal
+        if (distance(qNew, goalX, goalY) < 0.5) {
+            // Consider the goal found
+            return g;
+        }
     }
     return g;
 }
@@ -152,10 +156,9 @@ Node* Graph::nearestNode(int qRandX, int qRandY, Graph* g) {
 }
 
 // Get the distance from a node to a conf
-// TODO: what to return from this most effectively? int/double
-int Graph::distance(Node* n, int confX, int confY) {
+double Graph::distance(Node* n, int confX, int confY) {
     // Calculate Euclidean distance
-    int dist = sqrt((pow((n->getXPos() - confX), 2)) + pow((n->getYPos() - confY), 2));
+    double dist = sqrt((pow((n->getXPos() - confX), 2)) + pow((n->getYPos() - confY), 2));
     return dist;
 }
 
