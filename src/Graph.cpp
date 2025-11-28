@@ -64,12 +64,14 @@ Graph* Graph::buildRRT(Graph* g, int k, int deltaQ, int genConf[][6]) {
 
         // Calculate new qx, qy at unit dist from qNear, towards qRand
         int unitDist = 1;
+
+        auto [qNewX, qNewY] = normalDist(unitDist, qNear->getXPos(), qNear->getYPos(), qRandX, qRandY);
         
         // Set qNew->x
-        qNew->setXPos(qNear->getXPos() + 1);
+        qNew->setXPos(qNewX);
 
         // Set qNew->y
-        qNew->setYPos(qNear->getYPos() + 1);
+        qNew->setYPos(qNewY);
 
         // Set qNew->predecessor
         qNew->setPredecessor(qNear);
@@ -155,4 +157,20 @@ int Graph::distance(Node* n, int confX, int confY) {
     // Calculate Euclidean distance
     int dist = sqrt((pow((n->getXPos() - confX), 2)) + pow((n->getYPos() - confY), 2));
     return dist;
+}
+
+tuple<double, double> Graph::normalDist(int normal, int qNearX, int qNearY, int qRandX, int qRandY) {
+    // Calc distance from qNear to qRand
+    double d = sqrt(pow((qRandX - qNearX), 2) + pow((qRandY - qNearY), 2));
+
+    // Calc ratio of d to normal unit
+    double t = normal / d;
+
+    // Calc normal endpoint x
+    double xt = ((1 - t) * qNearX) + (t * qRandX);
+    
+    // Calc normal endpoint y
+    double yt = ((1 - t) * qNearY) + (t * qRandY);
+
+    return make_tuple(xt, yt);
 }

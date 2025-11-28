@@ -10,17 +10,17 @@ class Node
 {
 private:
     string data;
-    int x_pos;
-    int y_pos;
+    double x_pos;
+    double y_pos;
     Node *predecessor;
 
 public:
     Node(string data);
     ~Node();
-    int getXPos();
-    int getYPos();
-    void setXPos(int);
-    void setYPos(int);
+    double getXPos();
+    double getYPos();
+    void setXPos(double);
+    void setYPos(double);
     void setPredecessor(Node *other);
 };
 

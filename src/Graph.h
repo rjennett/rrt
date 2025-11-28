@@ -26,6 +26,7 @@ public:
     Node* nearestNode(int qRandX, int qRandY, Graph* g);
 
     int distance(Node* n, int confX, int confY);
+    tuple<double, double> normalDist(int normal, int qNearX, int qNearY, int qRandX, int qRandY);
 
     Node* getNearestNode();
     int getNearestDist();

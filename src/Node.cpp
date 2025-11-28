@@ -9,19 +9,19 @@ Node::Node(string s)
 
 Node::~Node() {}
 
-int Node::getXPos() {
+double Node::getXPos() {
     return x_pos;
 }
 
-int Node::getYPos() {
+double Node::getYPos() {
     return y_pos;
 }
 
-void Node::setXPos(int x) {
+void Node::setXPos(double x) {
     x_pos = x;
 }
 
-void Node::setYPos(int y) {
+void Node::setYPos(double y) {
     y_pos = y;
 }
 
