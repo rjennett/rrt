@@ -22,6 +22,7 @@ public:
     void setXPos(double);
     void setYPos(double);
     void setPredecessor(Node *other);
+    Node* getPredecessor();
 };
 
 #endif

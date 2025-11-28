@@ -2,7 +2,6 @@
 #include <tuple>
 #include <cmath>
 #include <array>
-#include <iostream>
 
 #include "Graph.h"
 
@@ -50,11 +49,13 @@ void Graph::setNearestDist(int d) {
     nearestDist = d;
 }
 
-Graph* Graph::buildRRT(Graph* g, int k, int deltaQ, int goalX, int goalY) {
+vector<Node*> Graph::buildRRT(Graph* g, int k, int deltaQ, int goalX, int goalY) {
+    // Path will be empty if RRT fails
+    vector<Node*> path;
     // Iterate to k
     for (int i = 0; i < k - 1; ++i) {
         // Get a random configuration qRand
-        auto [qRandX, qRandY] = randConf();
+        auto [qRandX, qRandY] = randConf(goalX, goalY);
 
         // Get the nearest node to qRand qNear
         Node* qNear = nearestNode(qRandX, qRandY, g);
@@ -85,11 +86,12 @@ Graph* Graph::buildRRT(Graph* g, int k, int deltaQ, int goalX, int goalY) {
         // End the tree if it found the goal
         if (distance(qNew, goalX, goalY) < 0.5) {
             // Consider the goal found
-            cout << "Goal Found!" << endl;
-            return g;
+            // Calculate the path to the goal
+            computePath(qNew, path);
+            return path;
         }
     }
-    return g;
+    return path;
 }
 
 // Initialize a graph with one root node with attributes set
@@ -112,19 +114,18 @@ Node* Graph::init(int qInitX, int qInitY) {
 }
 
 // Get a random configuration in the general configuration space
-tuple<int, int> Graph::randConf() {
+tuple<int, int> Graph::randConf(int goalX, int goalY) {
     // Set up random
     random_device rd;
     mt19937 gen(rd());
-    uniform_int_distribution<> distrib(1, 6);
-
-    // Section assumes square configuration space
 
     // Get a random x in the range
-    int x = distrib(gen);
+    uniform_int_distribution<> distribX(1, goalX);
+    int x = distribX(gen);
 
     // Get a random y in the range
-    int y = distrib(gen);
+    uniform_int_distribution<> distribY(1, goalY);
+    int y = distribY(gen);
 
     return make_tuple(x, y);
 }
@@ -177,4 +178,14 @@ tuple<double, double> Graph::normalDist(int deltaQ, Node* qNear, int qRandX, int
     double newY = qNear->getYPos() + deltaQ * cos(theta);
 
     return make_tuple(newX, newY);
+}
+
+void Graph::computePath(Node* goalNode, vector<Node*>& path) {
+    // Recursively move to predecessor
+    if (goalNode->getPredecessor() == NULL) {
+        return;
+    }
+    // Add to path vector
+    path.push_back(goalNode);
+    computePath(goalNode->getPredecessor(), path);
 }

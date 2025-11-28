@@ -28,3 +28,7 @@ void Node::setYPos(double y) {
 void Node::setPredecessor(Node* n) {
     predecessor = n;
 }
+
+Node* Node::getPredecessor() {
+    return predecessor;
+}

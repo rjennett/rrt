@@ -25,6 +25,30 @@ TEST_F(test_rrt, rrt_GraphTest)
     ASSERT_EQ(nodes[nodes.size() - 1]->data, "g");
 }
 
+TEST_F(test_rrt, rrt_InputTest) {
+    int startX = 1;
+    int startY = 2;
+    int goalX = 7;
+    int goalY = 8;
+
+    // Initialize the graph
+    Graph* g(new Graph());
+    Node* n = g->init(startX, startY);
+    g->addNode(n);
+
+    // Max number of nodes in graph
+    int k = 50;
+    // Max distance for a node to travel upon creation
+    int deltaQ = 2;
+
+    // Graph->buildRRT()
+    vector<Node*> goalPath = g->buildRRT(g, k, deltaQ, goalX, goalY);
+
+    // This test really just automates inputs
+    // The algorithm is non-deterministic, so it may fail often
+    ASSERT_GT(goalPath.size(), 0);
+}
+
 // Helpers
 Graph *mkgraph()
 {

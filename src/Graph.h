@@ -19,9 +19,9 @@ public:
     void addNode(Node *n);
     void addEdge(Edge *e);
 
-    Graph* buildRRT(Graph* g, int k, int deltaQ, int goalX, int goalY);
+    vector<Node*> buildRRT(Graph* g, int k, int deltaQ, int goalX, int goalY);
     Node* init(int qInitX, int qInitY);
-    tuple<int, int> randConf();
+    tuple<int, int> randConf(int goalX, int goalY);
 
     Node* nearestNode(int qRandX, int qRandY, Graph* g);
 
@@ -32,6 +32,7 @@ public:
     int getNearestDist();
     void setNearestNode(Node* n);
     void setNearestDist(int d);
+    void computePath(Node* goalNode, vector<Node*>& path);
 
 private:
     vector<Node *> nodes;
