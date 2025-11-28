@@ -27,3 +27,10 @@ The app will print out the coordinates of the nodes that lead to the goal if the
 
 ## Development Decisions
 This implementation was developed around a graph data structure. It uses a simplified graph, because not all of the functionality of a fully implemented graph is necessary here. Nodes must be added, store coordinate information, and have access to their predecessors. 
+
+This program was heavily structured around the pseudocode for RRT found [here](https://en.wikipedia.org/wiki/Rapidly_exploring_random_tree) and using this [project description](https://www.youtube.com/watch?v=OXikozpLFGo) as reference.
+
+A big conceptual shift happened late in the project. I had originally belived that I would need an "array space" to serve as the configuration space in which the tree would be searching. There were a lot of issues with that, especially if the user were allowed to configure the size of the space. It wasn't until later that I realized that the goal could be anywhere. Much the same way a graph of tree has a visualization only if you make one, the configuration space didn't actually need to have a structured existence. The coordinates bounding the generation of the search points simply needed to include the goal set by the user. This allowed the removal of a lot of 2d array definition and passing around the program and simplified things nicely.
+
+This algorithm should normally be able to handle navigating around obstacles. Given what I have so far, I believe I have an idea of how I would implement this functionality. Obstacles would be stored as a list of boundary coordinates. When a random point is generated, a check would occur to see if the point was within an obstacle space: `(qNewX < boundMinX || qNewX > boundMaxX || qNewY < boundMinY || qNewY > boundMaxY)` [source](https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon). If it is, the boundary of the obstacle should be iterated and the point moved to the nearest edge of the obstacle. This would function similarly to the method that searches the tree for the nearest point to the randomly chosen point.
+
