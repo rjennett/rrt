@@ -1,12 +1,12 @@
 # rrt
 Implementation of the Rapidly-exploring Random Tree algorithm in C++.
 
-### Overview
+## Overview
 RRT is a generally effective algorithm for pathfinding from a start point to a goal point. It is commonly used to guide robots by discovering a viable path through an unknown configuration space.
 
 The main algorithm has a time complexity of --- and a space complexity of ---. This is because 
 
-### Instructions to Run
+## Instructions to Run
 This project was developed and tested in the JupyterHub environment. It should be possible to compile and run the project in JupyterHub by cloning this repo.
 
 Once cloned, open the project directory in VSCode. Use the integrated runner/debugger to either run the tests with Run Tests or run the app in the CLI using Run App.
@@ -23,7 +23,7 @@ The app will return a failure message if the tree does not encounter the goal co
 
 The app will print out the coordinates of the nodes that lead to the goal if the goal was found.
 
-### Demonstration of the Project Running
+## Demonstration of the Project Running
 
-### Development Decisions
+## Development Decisions
 This implementation was developed around a graph data structure. It uses a simplified graph, because not all of the functionality of a fully implemented graph is necessary here. Nodes must be added, store coordinate information, and have access to their predecessors. 
