@@ -33,12 +33,11 @@ TEST_F(test_rrt, rrt_InputTest) {
 
     // Initialize the graph
     Graph* g(new Graph(startX, startY));
-    Node* n = g->getNodes()[0];
 
     // Max number of nodes in graph
-    int k = 50;
+    int k = 500;
     // Max distance for a node to travel upon creation
-    int deltaQ = 2;
+    int deltaQ = 1;
 
     // Graph->buildRRT()
     vector<Node*> goalPath = g->buildRRT(g, k, deltaQ, goalX, goalY);

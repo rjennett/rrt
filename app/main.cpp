@@ -29,7 +29,6 @@ int main()
 
     // Initialize the graph
     Graph* g(new Graph(startX, startY));
-    Node* n = g->getNodes()[0];
 
     // Max number of nodes in graph
     int k;
