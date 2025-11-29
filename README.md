@@ -24,9 +24,14 @@ The app will return a failure message if the tree does not encounter the goal co
 The app will print out the coordinates of the nodes that lead to the goal if the goal was found.
 
 ## Demonstration of the Project Running
-![RRT Run Success](img/RRT_RunSuccess.mp4)
-![RRT Run Failure](img/RRT_RunFailure.mp4)
+The following links are to the raw data of two screen recordings in this repo. They must be downloaded for viewing due to GitHub hosting limitations. They demonstrate the real-time use of this application in a successful and unsuccessful search.
+- [RRT Run Success](img/RRT_RunSuccess.mp4)
+- [RRT Run Failure](img/RRT_RunFailure.mp4)
+
+This screenshot demonstrates the full input and output of the application. The user entered a Start XY of (1, 2) and a Goal XY of (7, 8). The fully random nature of RRT makes it prone to failing if the tree is not allowed to be large enough or the step size does not allow it to traverse far enough. The two combine to determine how far the tree can explore. This demonstration used a tree size of 100 nodes and step size of 2. Increasing step size seems to increase the likelihood of finding the goal with fewer nodes. However, this is a tradeoff with maneuverability of the tree.
 ![RRT Run Success Full CLI](img/RRT_RunSuccessFullCLI.png)
+
+This screenshot demonstrates a successful test run output. As noted in the test comments, the test for the main application is prone to failing in the same ways as mentioned above. The test serves more as an automation of passing the six required inputs than as a test of the algorithm directly, due to it being non-deterministic. If this implementation were more fleshed out, we may want to use this test to ensure a certain level of service from the search. With a more robust search, it may be possible to set an expectation that it should only require so many resources to find the goal, or should never fail. In that situation, more useful and detailed tests could be written.
 ![RRT Test Output](img/TestOutputSuccess.png)
 
 ## Development Decisions
