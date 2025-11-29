@@ -21,7 +21,7 @@ TEST_F(test_rrt, rrt_GraphTest)
 {
     Graph *graph = mkgraph();
     vector<Node *> nodes = graph->getNodes();
-    ASSERT_EQ(nodes[0]->data, "a");
+    ASSERT_EQ(nodes[0]->data, "n");
     ASSERT_EQ(nodes[nodes.size() - 1]->data, "g");
 }
 
@@ -32,9 +32,8 @@ TEST_F(test_rrt, rrt_InputTest) {
     int goalY = 8;
 
     // Initialize the graph
-    Graph* g(new Graph());
-    Node* n = g->init(startX, startY);
-    g->addNode(n);
+    Graph* g(new Graph(startX, startY));
+    Node* n = g->getNodes()[0];
 
     // Max number of nodes in graph
     int k = 50;
@@ -52,7 +51,7 @@ TEST_F(test_rrt, rrt_InputTest) {
 // Helpers
 Graph *mkgraph()
 {
-    Graph *ret(new Graph());
+    Graph *ret(new Graph(0, 0));
     Node *a(new Node("a"));
     Node *b(new Node("b"));
     Node *c(new Node("c"));

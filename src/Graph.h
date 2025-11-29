@@ -11,7 +11,7 @@ using namespace std;
 class Graph
 {
 public:
-    Graph();
+    Graph(int qInitX, int qInitY);
     ~Graph();
     
     vector<Node *> getNodes();
@@ -20,7 +20,6 @@ public:
     void addEdge(Edge *e);
 
     vector<Node*> buildRRT(Graph* g, int k, int deltaQ, int goalX, int goalY);
-    Node* init(int qInitX, int qInitY);
     tuple<int, int> randConf(int goalX, int goalY);
 
     Node* nearestNode(int qRandX, int qRandY, Graph* g);

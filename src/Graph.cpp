@@ -7,8 +7,22 @@
 
 using namespace std;
 
-Graph::Graph()
+Graph::Graph(int qInitX, int qInitY)
 {
+    // Init node
+    Node* n(new Node("n"));
+
+    // Assign node x
+    n->setXPos(qInitX);
+
+    // Assign node y
+    n->setYPos(qInitY);
+
+    // Assign predecessor NULL
+    n->setPredecessor(NULL);
+
+    // Add the root node to the graph
+    addNode(n);
 }
 
 Graph::~Graph() {}
@@ -92,25 +106,6 @@ vector<Node*> Graph::buildRRT(Graph* g, int k, int deltaQ, int goalX, int goalY)
         }
     }
     return path;
-}
-
-// Initialize a graph with one root node with attributes set
-// to the arguments
-// TODO: this is should probably be in the graph constructor
-Node* Graph::init(int qInitX, int qInitY) {
-    // Init node
-    Node* n(new Node("n"));
-
-    // Assign node x
-    n->setXPos(qInitX);
-
-    // Assign node y
-    n->setYPos(qInitY);
-
-    // Assign predecessor NULL
-    n->setPredecessor(NULL);
-
-    return n;
 }
 
 // Get a random configuration in the general configuration space

@@ -9,12 +9,6 @@ using namespace std;
 
 int main()
 {
-    // Test build
-    // int var;
-    // cout << "Hello potato, how many penguins?" << endl;
-    // cin >> var;
-    // cout << "Penguins to feed: " << var << endl;
-
     // Take start coordinates
     int startX;
     int startY;
@@ -33,14 +27,9 @@ int main()
     cout << "Enter goal Y coordinate: ";
     cin >> goalY;
 
-    // (LATER) Initialize obstacle coordinates
-    // (LATER) Initialize obstacle dimensions
-    // (LATER) Differentiate the set of free coordinates from obs coordinates(?)
-
     // Initialize the graph
-    Graph* g(new Graph());
-    Node* n = g->init(startX, startY);
-    g->addNode(n);
+    Graph* g(new Graph(startX, startY));
+    Node* n = g->getNodes()[0];
 
     // Max number of nodes in graph
     int k;
