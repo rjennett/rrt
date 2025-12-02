@@ -48,7 +48,7 @@ In JupyterHub:
 git clone https://github.com/rjennett/rrt.git
 cd rrt
 ```
-- Open the project directory rr/ in VSCode
+- Open the project directory rrt/ in VSCode
 - The included .vscode/ files will allow running the project from the "Run and Debug" tab.
 - From the VSCode run dropdown
     - Run App to run the demo in the CLI
@@ -93,6 +93,6 @@ The implementation here iterates a simple vector of the nodes, in the order they
 RRT should normally be able to handle navigating around obstacles. Given what I have so far, I believe I have an idea of how I would implement this functionality. Obstacles would be stored as a list of boundary coordinates. When a random point is generated, a check would occur to see if the point was within an obstacle space: `(qNewX < boundMinX || qNewX > boundMaxX || qNewY < boundMinY || qNewY > boundMaxY)` ([source](https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon)). If it is, the boundary of the obstacle should be iterated and the point moved to the nearest edge of the obstacle. This would function similarly to the method that searches the tree for the nearest point to the randomly chosen point.
 
 ## References
-https://en.wikipedia.org/wiki/Rapidly_exploring_random_tree
-https://www.youtube.com/watch?v=OXikozpLFGo
-https://arxiv.org/pdf/1105.1186
+- RRT Overview and Pseudocode Reference: https://en.wikipedia.org/wiki/Rapidly_exploring_random_tree
+- RRT Overview & Implementation Reference: https://www.youtube.com/watch?v=OXikozpLFGo
+- Algorithm Complexity: https://arxiv.org/pdf/1105.1186
